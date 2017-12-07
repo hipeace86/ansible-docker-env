@@ -1,0 +1,32 @@
+version: '2'
+services:
+
+    ubuntu:
+        image: ansible-ubuntu:1
+        hostname: ansible-ubuntu
+        build:
+            context: ./ubuntu
+            dockerfile: Dockerfile
+        networks:
+            ansible:
+              ipv4_address: 10.1.1.2
+        tty: true
+    centos:
+        image: ansible-centos:1
+        hostname: ansible-centos
+        build:
+            context: ./centos
+            dockerfile: Dockerfile
+        networks:
+            ansible:
+              ipv4_address: 10.1.1.3
+        tty: true
+
+networks:
+    ansible:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.1.1.0/24
+                  gateway: 10.1.1.1
